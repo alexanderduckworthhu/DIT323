@@ -27,10 +27,15 @@ model = YOLO(str(ROOT / "best.pt"))
 
 def detections(img: Image.Image):
     result = model(img)[0]
-    return [
-        {"class": result.names[int(b.cls)], "conf": float(b.conf), "box": b.xyxy[0].tolist()}
-        for b in result.boxes
-    ]
+    found = []
+    for b in result.boxes:
+        conf = float(b.conf)
+        found.append({
+            "class": result.names[int(b.cls)] if conf >= 0.5 else "unknown",
+            "conf": conf,
+            "box": b.xyxy[0].tolist(),
+        })
+    return found
 
 
 def sample_path(split: str, name: str) -> Path:
