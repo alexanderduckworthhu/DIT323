@@ -2,7 +2,19 @@
 
 Each YOLO app is one local server. That server is the API and the web page. Open only one of these at a time on port 8000, or start the second app on port 8001.
 
-Python 3.13 is required. The virtual environment in each project folder is already installed.
+Python 3.13 is required. Each project folder already has a virtual environment on this machine. A fresh clone does not include it. Create one inside the project folder before the start command:
+
+```bash
+python3.13 -m venv .venv
+source .venv/bin/activate
+pip install ultralytics fastapi uvicorn python-multipart
+```
+
+For the customer buy predictor, install this set instead:
+
+```bash
+pip install pandas numpy scikit-learn joblib fastapi "uvicorn[standard]"
+```
 
 ## Corgi vs Chihuahua
 
