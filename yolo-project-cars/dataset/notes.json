@@ -1,0 +1,20 @@
+{
+  "categories": [
+    {
+      "id": 0,
+      "name": "jeep"
+    },
+    {
+      "id": 1,
+      "name": "tesla"
+    }
+  ],
+  "info": {
+    "year": 2026,
+    "version": "1.0",
+    "description": "Jeep vs Tesla",
+    "contributor": "Wikimedia Commons",
+    "url": "https://commons.wikimedia.org/",
+    "date_created": "2026-10-17 00:00:00"
+  }
+}

@@ -1,0 +1,6 @@
+path: ./dataset
+train: images/train
+val: images/val
+names:            # MUST match classes.txt order
+  0: jeep
+  1: tesla

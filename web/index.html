@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Will this customer buy?</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #f4f5f7;
+      color: #1f2933;
+      display: flex;
+      justify-content: center;
+      padding: 48px 16px;
+      margin: 0;
+    }
+    .card {
+      background: #fff;
+      width: 100%;
+      max-width: 380px;
+      padding: 28px 32px;
+      border-radius: 12px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+    h1 { font-size: 1.25rem; margin: 0 0 20px; }
+    label { display: block; font-size: 0.9rem; margin-bottom: 14px; color: #52606d; }
+    input {
+      display: block;
+      width: 100%;
+      margin-top: 4px;
+      padding: 8px 10px;
+      border: 1px solid #cbd2d9;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      margin-top: 8px;
+      padding: 10px;
+      border: 0;
+      border-radius: 6px;
+      background: #2563eb;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover { background: #1d4ed8; }
+    #result {
+      margin: 18px 0 0;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-align: center;
+      display: none;
+    }
+    #result.yes { display: block; background: #e6f6ec; color: #05753a; }
+    #result.no  { display: block; background: #fdecec; color: #b42318; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Will this customer buy?</h1>
+
+    <label>Age
+      <input id="age" type="number" value="45" />
+    </label>
+    <label>Estimated salary
+      <input id="salary" type="number" value="90000" />
+    </label>
+    <button onclick="predict()">Predict</button>
+
+    <p id="result"></p>
+  </div>
+
+  <script>
+    const API = "http://127.0.0.1:8000"
+
+    async function predict() {
+      // read the form and build the request body in the schema the API expects
+      const body = {
+        age: Number(document.getElementById("age").value),
+        estimated_salary: Number(document.getElementById("salary").value),
+      }
+
+      const res = await fetch(API + "/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      })
+
+      const data = await res.json()
+      const label = data.will_buy ? "Yes" : "No"
+      const el = document.getElementById("result")
+      el.className = data.will_buy ? "yes" : "no"     // green for Yes, red for No
+      el.textContent =
+        `Will buy: ${label} (probability ${data.probability}, model ${data.model_version})`
+    }
+  </script>
+</body>
+</html>
